@@ -13,11 +13,12 @@ public class Client {
     private final Instant createdAt;
     private Instant updatedAt;
 
-    public Client(String id, String name, String cpf, String email, Instant createdAt) {
+    public Client(String id, String name, String cpf, String email, ClientStatus status, Instant createdAt) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.email = email;
+        this.status = status;
         this.createdAt = createdAt;
     }
 
