@@ -36,7 +36,6 @@ public class TransactionService {
     private static final Logger log = LoggerFactory.getLogger(TransactionService.class);
 
     public Transaction create(CreateTransactionRequest request) {
-
         Client client = clientService.findById(request.getClientId());
 
         if(client.getStatus() != ClientStatus.ACTIVE) {
