@@ -1,6 +1,7 @@
 package br.andre.financialsystem.domain.model;
 
 import br.andre.financialsystem.domain.enums.TransactionStatus;
+import br.andre.financialsystem.domain.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -10,16 +11,30 @@ public class Transaction {
     private final String id;
     private final String clientId;
     private final BigDecimal value;
-    private final TransactionStatus status;
+    private final TransactionType type;
+    private final BigDecimal balanceAtCreation;
+    private TransactionStatus status;
     private final Instant createdAt;
     private Instant updatedAt;
 
-    public Transaction(String id, String clientId, BigDecimal value, TransactionStatus status, Instant createdAt) {
+    public Transaction(String id, String clientId, BigDecimal value, TransactionType type, BigDecimal balanceAtCreation, TransactionStatus status, Instant createdAt) {
         this.id = id;
         this.clientId = clientId;
         this.value = value;
+        this.type = type;
+        this.balanceAtCreation = balanceAtCreation;
         this.status = status;
         this.createdAt = createdAt;
+    }
+
+    public void complete() {
+        setStatus(TransactionStatus.COMPLETED);
+        setUpdatedAt(Instant.now());
+    }
+
+    public void fail() {
+        setStatus(TransactionStatus.FAILED);
+        setUpdatedAt(Instant.now());
     }
 
     public String getId() {
@@ -32,6 +47,18 @@ public class Transaction {
 
     public BigDecimal getValue() {
         return value;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public BigDecimal getBalanceAtCreation() {
+        return balanceAtCreation;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
     }
 
     public TransactionStatus getStatus() {
