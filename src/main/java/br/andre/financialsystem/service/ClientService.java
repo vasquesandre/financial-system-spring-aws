@@ -17,8 +17,8 @@ public class ClientService {
 
     private final ClientRepository repository;
 
-    public ClientService(ClientRepository repository) {
-        this.repository = repository;
+    public ClientService(ClientRepository clientRepository) {
+        this.repository = clientRepository;
     }
 
     private boolean isValidCpf(String cpf) {
