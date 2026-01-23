@@ -9,6 +9,7 @@ import br.andre.financialsystem.dto.client.CreateClientRequest;
 import br.andre.financialsystem.repository.client.ClientRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -39,6 +40,7 @@ public class ClientService {
                 request.getName(),
                 request.getCpf(),
                 request.getEmail(),
+                BigDecimal.ZERO,
                 ClientStatus.ACTIVE, // temporary, PENDING after implementing AWS
                 Instant.now()
         );
