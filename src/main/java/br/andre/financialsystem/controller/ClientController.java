@@ -20,7 +20,7 @@ public class ClientController {
         this.service = clientService;
     }
 
-    private static final Logger log = LoggerFactory.getLogger(ClientService.class);
+    private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 
     @PostMapping
     public ResponseEntity<ClientResponse> save(@RequestBody CreateClientRequest request) {
