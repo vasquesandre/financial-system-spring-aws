@@ -1,5 +1,6 @@
 package br.andre.financialsystem.service;
 
+import br.andre.financialsystem.domain.exception.client.InvalidCpfException;
 import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.domain.enums.ClientStatus;
 import br.andre.financialsystem.dto.client.CreateClientRequest;
@@ -66,6 +67,23 @@ class ClientServiceTest {
                 .thenReturn(Optional.of(mock(Client.class)));
 
         assertThrows(CpfAlreadyExistsException.class,
+                () -> clientService.create(request));
+
+        verify(clientRepository, never()).save(any());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCpfIsInvalid() {
+        CreateClientRequest request = new CreateClientRequest(
+                "Andre",
+                "1234567890",
+                "andre@email.com"
+        );
+
+        when(clientRepository.findByCpf(request.getCpf()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(InvalidCpfException.class,
                 () -> clientService.create(request));
 
         verify(clientRepository, never()).save(any());
