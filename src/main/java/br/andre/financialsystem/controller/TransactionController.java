@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 public class TransactionController {
 
     private final TransactionService service;
@@ -28,6 +28,7 @@ public class TransactionController {
     public ResponseEntity<TransactionResponse> save(@RequestBody CreateTransactionRequest request) {
         log.info("POST_TRANSACTION_REQUEST for client={}", request.getClientId());
         Transaction transaction = service.create(request);
+        log.info("POST_TRANSACTION_RESPONSE completed transaction id={}", transaction.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new TransactionResponse(transaction));
     }
 
