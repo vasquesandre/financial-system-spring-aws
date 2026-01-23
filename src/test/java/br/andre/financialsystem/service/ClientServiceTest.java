@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -98,6 +99,7 @@ class ClientServiceTest {
                 "Andre",
                 "12345678909",
                 "andre@email.com",
+                BigDecimal.ZERO,
                 ClientStatus.ACTIVE,
                 Instant.now()
         );
