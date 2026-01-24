@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,10 +26,13 @@ public class TransactionController {
     private static final Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     @PostMapping
-    public ResponseEntity<TransactionResponse> save(@RequestBody CreateTransactionRequest request) {
-        log.info("POST_TRANSACTION_REQUEST for client={}", request.getClientId());
-        Transaction transaction = service.create(request);
+    public ResponseEntity<TransactionResponse> save(@RequestBody CreateTransactionRequest request, Authentication authentication) {
+        String clientId = authentication.getName();
+        log.info("POST_TRANSACTION_REQUEST for client={}", clientId);
+
+        Transaction transaction = service.create(request, clientId);
         log.info("POST_TRANSACTION_RESPONSE completed transaction id={}", transaction.getId());
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new TransactionResponse(transaction));
     }
 
@@ -40,9 +44,10 @@ public class TransactionController {
     }
 
     @GetMapping("/client/{id}")
-    public ResponseEntity<List<TransactionResponse>> findByClientId(@PathVariable String id) {
-        log.info("GET_TRANSACTION_RESPONSE by client={}", id);
-        List<TransactionResponse> transactions = service.findByClientId(id)
+    public ResponseEntity<List<TransactionResponse>> findByClientId(@PathVariable Authentication authentication) {
+        String clientId = authentication.getName();
+        log.info("GET_TRANSACTION_RESPONSE by client={}", clientId);
+        List<TransactionResponse> transactions = service.findByClientId(clientId)
                 .stream()
                 .map(TransactionResponse::new)
                 .toList();

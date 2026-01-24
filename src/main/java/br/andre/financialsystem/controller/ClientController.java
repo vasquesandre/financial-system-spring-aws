@@ -4,6 +4,7 @@ import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.dto.client.ClientResponse;
 import br.andre.financialsystem.dto.client.CreateClientRequest;
 import br.andre.financialsystem.service.ClientService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class ClientController {
     private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 
     @PostMapping
-    public ResponseEntity<ClientResponse> save(@RequestBody CreateClientRequest request) {
+    public ResponseEntity<ClientResponse> save(@RequestBody @Valid CreateClientRequest request) {
         log.info("POST_CLIENT_REQUEST creating client with cpf={}", request.getCpf());
         Client client = service.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ClientResponse(client));

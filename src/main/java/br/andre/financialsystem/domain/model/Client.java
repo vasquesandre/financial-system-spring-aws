@@ -10,16 +10,18 @@ public class Client {
     private final String id;
     private final String name;
     private final String cpf;
+    private final String password;
     private final String email;
     private BigDecimal balance;
     private ClientStatus status;
     private final Instant createdAt;
     private Instant updatedAt;
 
-    public Client(String id, String name, String cpf, String email, BigDecimal balance, ClientStatus status, Instant createdAt) {
+    public Client(String id, String name, String cpf, String password, String email, BigDecimal balance, ClientStatus status, Instant createdAt) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
+        this.password = password;
         this.email = email;
         this.balance = balance;
         this.status = status;
@@ -47,6 +49,10 @@ public class Client {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getEmail() {

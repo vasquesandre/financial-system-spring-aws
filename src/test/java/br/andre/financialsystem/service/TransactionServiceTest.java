@@ -48,6 +48,7 @@ class TransactionServiceTest {
                 "client-id",
                 "Andre",
                 "11122233300",
+                "12345678",
                 "andre@email.com",
                 new BigDecimal("500.00"),
                 ClientStatus.ACTIVE,
@@ -58,7 +59,6 @@ class TransactionServiceTest {
     @Test
     void shouldCreateCreditTransactionSuccessfully() {
         CreateTransactionRequest request = new CreateTransactionRequest(
-                activeClient.getId(),
                 new BigDecimal("100.00"),
                 TransactionType.CREDIT
         );
@@ -69,7 +69,7 @@ class TransactionServiceTest {
         when(transactionRepository.save(any(Transaction.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        Transaction transaction = transactionService.create(request);
+        Transaction transaction = transactionService.create(request, activeClient.getId());
 
         assertEquals(TransactionStatus.COMPLETED, transaction.getStatus());
         assertEquals(new BigDecimal("600.00"), activeClient.getBalance());
@@ -81,7 +81,6 @@ class TransactionServiceTest {
     @Test
     void shouldCreateDebitTransactionSuccessfully() {
         CreateTransactionRequest request = new CreateTransactionRequest(
-                activeClient.getId(),
                 new BigDecimal("200.00"),
                 TransactionType.DEBIT
         );
@@ -92,7 +91,7 @@ class TransactionServiceTest {
         when(transactionRepository.save(any(Transaction.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        Transaction transaction = transactionService.create(request);
+        Transaction transaction = transactionService.create(request, activeClient.getId());
 
         assertEquals(TransactionStatus.COMPLETED, transaction.getStatus());
         assertEquals(new BigDecimal("300.00"), activeClient.getBalance());
@@ -107,6 +106,7 @@ class TransactionServiceTest {
                 "client-id",
                 "Andre",
                 "11122233300",
+                "12345678",
                 "andre@email.com",
                 new BigDecimal("500.00"),
                 ClientStatus.INACTIVE,
@@ -114,7 +114,6 @@ class TransactionServiceTest {
         );
 
         CreateTransactionRequest request = new CreateTransactionRequest(
-                inactiveClient.getId(),
                 new BigDecimal("100.00"),
                 TransactionType.DEBIT
         );
@@ -123,7 +122,7 @@ class TransactionServiceTest {
                 .thenReturn(inactiveClient);
 
         assertThrows(ClientNotActiveException.class,
-                () -> transactionService.create(request));
+                () -> transactionService.create(request, inactiveClient.getId()));
 
         verifyNoInteractions(transactionRepository);
         verify(clientRepository, never()).save(any());
@@ -132,7 +131,6 @@ class TransactionServiceTest {
     @Test
     void shouldFailWhenTransactionValueIsZeroOrNegative() {
         CreateTransactionRequest request = new CreateTransactionRequest(
-                activeClient.getId(),
                 BigDecimal.ZERO,
                 TransactionType.CREDIT
         );
@@ -141,7 +139,7 @@ class TransactionServiceTest {
                 .thenReturn(activeClient);
 
         assertThrows(InvalidTransactionValueException.class,
-                () -> transactionService.create(request));
+                () -> transactionService.create(request, activeClient.getId()));
 
         verifyNoInteractions(transactionRepository);
         verify(clientRepository, never()).save(any());
@@ -150,7 +148,6 @@ class TransactionServiceTest {
     @Test
     void shouldSaveFailedTransactionWhenInsufficientBalance() {
         CreateTransactionRequest request = new CreateTransactionRequest(
-                activeClient.getId(),
                 new BigDecimal("1000.00"),
                 TransactionType.DEBIT
         );
@@ -162,7 +159,7 @@ class TransactionServiceTest {
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         assertThrows(InsufficientBalanceException.class,
-                () -> transactionService.create(request));
+                () -> transactionService.create(request, activeClient.getId()));
 
         verify(transactionRepository).save(argThat(
                 transaction -> transaction.getStatus() == TransactionStatus.FAILED

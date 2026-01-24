@@ -35,9 +35,9 @@ public class TransactionService {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionService.class);
 
-    public Transaction create(CreateTransactionRequest request) {
+    public Transaction create(CreateTransactionRequest request, String clientId) {
 
-        Client client = clientService.findById(request.getClientId());
+        Client client = clientService.findById(clientId);
 
         if(client.getStatus() != ClientStatus.ACTIVE) {
             throw new ClientNotActiveException();
@@ -49,7 +49,7 @@ public class TransactionService {
 
         Transaction transaction = new Transaction(
                 UUID.randomUUID().toString(),
-                request.getClientId(),
+                clientId,
                 request.getValue(),
                 request.getType(),
                 client.getBalance(),

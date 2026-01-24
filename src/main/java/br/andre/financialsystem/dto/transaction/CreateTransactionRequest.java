@@ -8,18 +8,12 @@ import java.math.BigDecimal;
 
 public class CreateTransactionRequest {
 
-    @NotBlank private final String clientId;
     @NotBlank @Positive private final BigDecimal value;
     @NotBlank private final TransactionType type;
 
-    public CreateTransactionRequest(String clientId, BigDecimal value, TransactionType type) {
-        this.clientId = clientId;
+    public CreateTransactionRequest(BigDecimal value, TransactionType type) {
         this.value = value;
         this.type = type;
-    }
-
-    public String getClientId() {
-        return clientId;
     }
 
     public BigDecimal getValue() {
