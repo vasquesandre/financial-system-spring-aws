@@ -29,6 +29,8 @@ This project simulates basic financial operations, focusing on:
 
 ### Auth
 - Authentication and authorization
+- Client login
+- Transactions create only with client token
 
 ### Client
 - Client creation
