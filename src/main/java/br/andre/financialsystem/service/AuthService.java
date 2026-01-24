@@ -1,10 +1,9 @@
 package br.andre.financialsystem.service;
 
-import br.andre.financialsystem.domain.exception.UnauthorizedLoginException;
+import br.andre.financialsystem.domain.exception.auth.UnauthorizedLoginException;
 import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.dto.auth.LoginRequest;
-import br.andre.financialsystem.service.security.JwtService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import br.andre.financialsystem.infra.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

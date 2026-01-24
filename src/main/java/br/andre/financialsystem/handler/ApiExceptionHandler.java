@@ -1,6 +1,6 @@
 package br.andre.financialsystem.handler;
 
-import br.andre.financialsystem.domain.exception.UnauthorizedLoginException;
+import br.andre.financialsystem.domain.exception.auth.UnauthorizedLoginException;
 import br.andre.financialsystem.domain.exception.client.*;
 import br.andre.financialsystem.domain.exception.transaction.InvalidTransactionValueException;
 import br.andre.financialsystem.domain.exception.transaction.TransactionNotFoundException;

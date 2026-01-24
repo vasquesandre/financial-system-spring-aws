@@ -1,4 +1,4 @@
-package br.andre.financialsystem.service.security;
+package br.andre.financialsystem.infra.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

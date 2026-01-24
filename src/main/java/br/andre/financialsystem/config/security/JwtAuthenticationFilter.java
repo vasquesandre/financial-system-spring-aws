@@ -1,5 +1,6 @@
-package br.andre.financialsystem.service.security;
+package br.andre.financialsystem.config.security;
 
+import br.andre.financialsystem.infra.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
