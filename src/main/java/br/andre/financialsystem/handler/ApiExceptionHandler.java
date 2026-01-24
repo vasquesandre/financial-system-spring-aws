@@ -1,5 +1,6 @@
 package br.andre.financialsystem.handler;
 
+import br.andre.financialsystem.domain.exception.UnauthorizedLoginException;
 import br.andre.financialsystem.domain.exception.client.*;
 import br.andre.financialsystem.domain.exception.transaction.InvalidTransactionValueException;
 import br.andre.financialsystem.domain.exception.transaction.TransactionNotFoundException;
@@ -52,5 +53,11 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiError> handle(InvalidTransactionValueException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiError("INVALID_TRANSACTION_VALUE", "Invalid transaction value"));
+    }
+
+    @ExceptionHandler(UnauthorizedLoginException.class)
+    public ResponseEntity<ApiError> handle(UnauthorizedLoginException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiError("UNAUTHORIZED LOGIN", "Unauthorized login"));
     }
 }
