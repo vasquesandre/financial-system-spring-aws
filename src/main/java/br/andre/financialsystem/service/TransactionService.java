@@ -2,6 +2,7 @@ package br.andre.financialsystem.service;
 
 import br.andre.financialsystem.domain.enums.ClientStatus;
 import br.andre.financialsystem.domain.enums.TransactionStatus;
+import br.andre.financialsystem.domain.exception.auth.AccessDeniedException;
 import br.andre.financialsystem.domain.exception.client.ClientNotActiveException;
 import br.andre.financialsystem.domain.exception.client.InsufficientBalanceException;
 import br.andre.financialsystem.domain.exception.transaction.InvalidTransactionValueException;
@@ -90,8 +91,12 @@ public class TransactionService {
                 .orElseThrow(TransactionNotFoundException::new);
     }
 
-    public List<Transaction> findByClientId(String id) {
-        return repository.findByClientId(id);
+    public List<Transaction> findByClientId(String id, String clientId) {
+        if(!id.equals(clientId)) {
+            log.warn("ACCESS_DENIED: clientId={} trying to get transactions from clientId={}", clientId, id);
+            throw new AccessDeniedException();
+        }
+        return repository.findByClientId(clientId);
     }
 
 }

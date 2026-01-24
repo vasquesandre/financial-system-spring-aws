@@ -1,5 +1,6 @@
 package br.andre.financialsystem.handler;
 
+import br.andre.financialsystem.domain.exception.auth.AccessDeniedException;
 import br.andre.financialsystem.domain.exception.auth.UnauthorizedLoginException;
 import br.andre.financialsystem.domain.exception.client.*;
 import br.andre.financialsystem.domain.exception.transaction.InvalidTransactionValueException;
@@ -59,5 +60,11 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiError> handle(UnauthorizedLoginException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ApiError("UNAUTHORIZED LOGIN", "Unauthorized login"));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError> handle(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiError("ACCESS_DENIED", "Access denied"));
     }
 }

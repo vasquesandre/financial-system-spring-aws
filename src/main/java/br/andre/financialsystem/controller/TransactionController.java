@@ -44,13 +44,14 @@ public class TransactionController {
     }
 
     @GetMapping("/client/{id}")
-    public ResponseEntity<List<TransactionResponse>> findByClientId(@PathVariable Authentication authentication) {
+    public ResponseEntity<List<TransactionResponse>> findByIdAndClientId(@PathVariable String id, Authentication authentication) {
         String clientId = authentication.getName();
-        log.info("GET_TRANSACTION_RESPONSE by client={}", clientId);
-        List<TransactionResponse> transactions = service.findByClientId(clientId)
+        log.info("GET_TRANSACTION_RESPONSE for client={}", clientId);
+        List<TransactionResponse> transactions = service.findByClientId(id, clientId)
                 .stream()
                 .map(TransactionResponse::new)
                 .toList();
+        log.info("GET_TRANSACTION_RESPONSE completed get transactions for clientId={}", clientId);
         return ResponseEntity.ok(transactions);
     }
 }
