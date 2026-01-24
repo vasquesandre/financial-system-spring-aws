@@ -3,6 +3,7 @@ package br.andre.financialsystem.service;
 import br.andre.financialsystem.domain.enums.ClientStatus;
 import br.andre.financialsystem.domain.enums.TransactionStatus;
 import br.andre.financialsystem.domain.enums.TransactionType;
+import br.andre.financialsystem.domain.exception.auth.AccessDeniedException;
 import br.andre.financialsystem.domain.exception.client.ClientNotActiveException;
 import br.andre.financialsystem.domain.exception.client.InsufficientBalanceException;
 import br.andre.financialsystem.domain.exception.transaction.InvalidTransactionValueException;
@@ -166,5 +167,22 @@ class TransactionServiceTest {
         ));
 
         verify(clientRepository, never()).save(any());
+    }
+
+    @Test
+    void shouldThrowExceptionIfClientTryToGetTransactionsFromAnotherClient() {
+        Client secondClient = new Client(
+                "second-client-id",
+                "Nicole",
+                "22233344400",
+                "12345678",
+                "nicole@email.com",
+                new BigDecimal("500.00"),
+                ClientStatus.ACTIVE,
+                Instant.now()
+        );
+
+        assertThrows(AccessDeniedException.class,
+                () -> transactionService.findByClientId(secondClient.getId(), activeClient.getId()));
     }
 }
