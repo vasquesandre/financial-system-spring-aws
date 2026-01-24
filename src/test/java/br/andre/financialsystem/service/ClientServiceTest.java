@@ -10,7 +10,7 @@ import br.andre.financialsystem.domain.exception.client.ClientNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -25,12 +25,14 @@ class ClientServiceTest {
 
     private ClientRepository clientRepository;
     private ClientService clientService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
         clientRepository = Mockito.mock(ClientRepository.class);
-        clientService = new ClientService(clientRepository, bCryptPasswordEncoder);
+        passwordEncoder = Mockito.mock(PasswordEncoder.class);
+        when(passwordEncoder.encode(any())).thenReturn("encoded-password");
+        clientService = new ClientService(clientRepository, passwordEncoder);
     }
 
     @Test

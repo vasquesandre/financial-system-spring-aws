@@ -7,7 +7,6 @@ import br.andre.financialsystem.domain.exception.client.InvalidCpfException;
 import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.dto.client.CreateClientRequest;
 import br.andre.financialsystem.repository.client.ClientRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
