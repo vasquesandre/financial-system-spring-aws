@@ -27,6 +27,11 @@ This project simulates basic financial operations, focusing on:
 
 ## Current Features
 
+### Auth
+- Authentication and authorization
+- Client login
+- Transactions create only with client token
+
 ### Client
 - Client creation
 - CPF and required field validation
@@ -64,7 +69,6 @@ This project simulates basic financial operations, focusing on:
 
 ## Planned Features
 
-- Authentication and authorization
 - AWS deployment
 - Infrastructure as Code with Terraform
 - Asynchronous processing with SQS and Lambda
