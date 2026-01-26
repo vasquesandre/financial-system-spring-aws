@@ -1,5 +1,6 @@
 package br.andre.financialsystem.infra.security;
 
+import br.andre.financialsystem.domain.enums.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,12 +19,13 @@ public class JwtService {
     @Value("${security.jwt.expiration}")
     private long expiration;
 
-    public String generateToken(String subject) {
+    public String generateToken(String subject, Role role) {
         Date now = new Date();
         Date exp = new Date(now.getTime() + expiration);
 
         return Jwts.builder()
                 .subject(subject)
+                .claim("role", role.name())
                 .issuedAt(now)
                 .expiration(exp)
                 .signWith(getKey())
@@ -37,6 +39,15 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public String getRole(String token) {
+        return Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
     }
 
     private SecretKey getKey() {

@@ -1,5 +1,6 @@
 package br.andre.financialsystem.service;
 
+import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.exception.client.InvalidCpfException;
 import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.domain.enums.ClientStatus;
@@ -41,7 +42,8 @@ class ClientServiceTest {
                 "Andre",
                 "12345678909",
                 "12345678",
-                "andre@email.com"
+                "andre@email.com",
+                Role.CLIENT
         );
 
         when(clientRepository.findByCpf(request.getCpf()))
@@ -67,7 +69,8 @@ class ClientServiceTest {
                 "Andre",
                 "12345678909",
                 "12345678",
-                "andre@email.com"
+                "andre@email.com",
+                Role.CLIENT
         );
 
         when(clientRepository.findByCpf(request.getCpf()))
@@ -85,7 +88,8 @@ class ClientServiceTest {
                 "Andre",
                 "1234567890",
                 "12345678",
-                "andre@email.com"
+                "andre@email.com",
+                Role.CLIENT
         );
 
         when(clientRepository.findByCpf(request.getCpf()))
@@ -109,7 +113,8 @@ class ClientServiceTest {
                 "andre@email.com",
                 BigDecimal.ZERO,
                 ClientStatus.ACTIVE,
-                Instant.now()
+                Instant.now(),
+                Role.ADMIN
         );
 
         when(clientRepository.findById(clientId))

@@ -28,7 +28,7 @@ public class AuthService {
             throw new UnauthorizedLoginException();
         }
 
-        return jwtService.generateToken(client.getId());
+        return jwtService.generateToken(client.getId(), client.getRole());
     }
 
 }

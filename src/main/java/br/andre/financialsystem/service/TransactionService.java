@@ -1,6 +1,7 @@
 package br.andre.financialsystem.service;
 
 import br.andre.financialsystem.domain.enums.ClientStatus;
+import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.enums.TransactionStatus;
 import br.andre.financialsystem.domain.exception.auth.AccessDeniedException;
 import br.andre.financialsystem.domain.exception.client.ClientNotActiveException;
@@ -86,7 +87,11 @@ public class TransactionService {
         return repository.save(transaction);
     }
 
-    public Transaction findById(String id) {
+    public Transaction findById(String id, String requesterId, Role role) {
+        if(role != Role.ADMIN) {
+            log.warn("ACCESS_DENIED: requesterId={} with role={} tried to access transaction id={}", requesterId, role, id);
+            throw new AccessDeniedException();
+        }
         return repository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
     }

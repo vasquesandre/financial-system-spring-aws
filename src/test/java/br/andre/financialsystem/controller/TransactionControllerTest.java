@@ -1,6 +1,7 @@
 package br.andre.financialsystem.controller;
 
 import br.andre.financialsystem.config.security.JwtAuthenticationFilter;
+import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.enums.TransactionStatus;
 import br.andre.financialsystem.domain.enums.TransactionType;
 import br.andre.financialsystem.domain.model.Transaction;
@@ -94,7 +95,7 @@ class TransactionControllerTest {
                 Instant.now()
         );
 
-        when(transactionService.findById("tx-1"))
+        when(transactionService.findById("tx-1", "1", Role.ADMIN))
                 .thenReturn(transaction);
 
         mockMvc.perform(get("/transactions/tx-1")

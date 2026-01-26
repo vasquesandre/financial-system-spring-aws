@@ -1,6 +1,7 @@
 package br.andre.financialsystem.domain.model;
 
 import br.andre.financialsystem.domain.enums.ClientStatus;
+import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.exception.client.InsufficientBalanceException;
 
 import java.math.BigDecimal;
@@ -16,8 +17,9 @@ public class Client {
     private ClientStatus status;
     private final Instant createdAt;
     private Instant updatedAt;
+    private final Role role;
 
-    public Client(String id, String name, String cpf, String password, String email, BigDecimal balance, ClientStatus status, Instant createdAt) {
+    public Client(String id, String name, String cpf, String password, String email, BigDecimal balance, ClientStatus status, Instant createdAt, Role role) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -26,6 +28,7 @@ public class Client {
         this.balance = balance;
         this.status = status;
         this.createdAt = createdAt;
+        this.role = role;
     }
 
     public void debit(BigDecimal amount) {
@@ -85,5 +88,9 @@ public class Client {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }

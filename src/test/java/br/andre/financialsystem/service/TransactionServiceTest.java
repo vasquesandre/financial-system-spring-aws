@@ -1,6 +1,7 @@
 package br.andre.financialsystem.service;
 
 import br.andre.financialsystem.domain.enums.ClientStatus;
+import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.enums.TransactionStatus;
 import br.andre.financialsystem.domain.enums.TransactionType;
 import br.andre.financialsystem.domain.exception.auth.AccessDeniedException;
@@ -53,7 +54,8 @@ class TransactionServiceTest {
                 "andre@email.com",
                 new BigDecimal("500.00"),
                 ClientStatus.ACTIVE,
-                Instant.now()
+                Instant.now(),
+                Role.CLIENT
         );
     }
 
@@ -111,7 +113,8 @@ class TransactionServiceTest {
                 "andre@email.com",
                 new BigDecimal("500.00"),
                 ClientStatus.INACTIVE,
-                Instant.now()
+                Instant.now(),
+                Role.CLIENT
         );
 
         CreateTransactionRequest request = new CreateTransactionRequest(
@@ -179,7 +182,8 @@ class TransactionServiceTest {
                 "nicole@email.com",
                 new BigDecimal("500.00"),
                 ClientStatus.ACTIVE,
-                Instant.now()
+                Instant.now(),
+                Role.CLIENT
         );
 
         assertThrows(AccessDeniedException.class,

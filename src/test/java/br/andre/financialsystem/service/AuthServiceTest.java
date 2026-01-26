@@ -1,6 +1,7 @@
 package br.andre.financialsystem.service;
 
 import br.andre.financialsystem.domain.enums.ClientStatus;
+import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.exception.auth.UnauthorizedLoginException;
 import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.dto.auth.LoginRequest;
@@ -41,7 +42,8 @@ class AuthServiceTest {
                 "andre@email.com",
                 new BigDecimal("500.00"),
                 ClientStatus.ACTIVE,
-                Instant.now()
+                Instant.now(),
+                Role.ADMIN
         );
     }
 
@@ -51,14 +53,14 @@ class AuthServiceTest {
 
         when(clientService.findByCpf("cpf")).thenReturn(client);
         when(passwordEncoder.matches("123456", "encoded-pass")).thenReturn(true);
-        when(jwtService.generateToken("id")).thenReturn("jwt-token");
+        when(jwtService.generateToken("id", Role.CLIENT)).thenReturn("jwt-token");
 
         String token = authService.login(request);
 
         assertNotNull(token);
         assertEquals("jwt-token", token);
 
-        verify(jwtService).generateToken("id");
+        verify(jwtService).generateToken("id", Role.CLIENT);
     }
 
     @Test
@@ -73,6 +75,6 @@ class AuthServiceTest {
                 () -> authService.login(request)
         );
 
-        verify(jwtService, never()).generateToken(any());
+        verify(jwtService, never()).generateToken(any(), any());
     }
 }

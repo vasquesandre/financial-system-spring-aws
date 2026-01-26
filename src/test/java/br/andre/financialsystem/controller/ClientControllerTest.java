@@ -1,6 +1,7 @@
 package br.andre.financialsystem.controller;
 
 import br.andre.financialsystem.domain.enums.ClientStatus;
+import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.dto.client.CreateClientRequest;
 import br.andre.financialsystem.service.ClientService;
@@ -41,7 +42,8 @@ class ClientControllerTest {
                 "Andre",
                 "12345678900",
                 "123456",
-                "andre@email.com"
+                "andre@email.com",
+                Role.CLIENT
         );
 
         Client client = new Client(
@@ -52,7 +54,8 @@ class ClientControllerTest {
                 request.getEmail(),
                 BigDecimal.ZERO,
                 ClientStatus.ACTIVE,
-                Instant.now()
+                Instant.now(),
+                request.getRole()
         );
 
         when(clientService.create(any())).thenReturn(client);
@@ -79,7 +82,8 @@ class ClientControllerTest {
                 "andre@email.com",
                 BigDecimal.ZERO,
                 ClientStatus.ACTIVE,
-                Instant.now()
+                Instant.now(),
+                Role.CLIENT
         );
 
         when(clientService.findById("1")).thenReturn(client);
@@ -103,7 +107,8 @@ class ClientControllerTest {
                 "andre@email.com",
                 BigDecimal.ZERO,
                 ClientStatus.ACTIVE,
-                Instant.now()
+                Instant.now(),
+                Role.CLIENT
         );
 
         when(clientService.findByCpf("12345678900")).thenReturn(client);
