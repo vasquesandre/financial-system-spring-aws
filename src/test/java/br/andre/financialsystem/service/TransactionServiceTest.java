@@ -22,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -187,6 +186,6 @@ class TransactionServiceTest {
         );
 
         assertThrows(AccessDeniedException.class,
-                () -> transactionService.findByClientId(secondClient.getId(), activeClient.getId()));
+                () -> transactionService.findByClientId(secondClient.getId(), activeClient.getId(), activeClient.getRole()));
     }
 }

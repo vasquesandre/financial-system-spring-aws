@@ -19,13 +19,14 @@ import java.time.Instant;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 class ClientControllerTest {
 
     @Autowired
@@ -88,7 +89,8 @@ class ClientControllerTest {
 
         when(clientService.findById("1")).thenReturn(client);
 
-        mockMvc.perform(get("/clients/1"))
+        mockMvc.perform(get("/clients/1")
+                        .with(user("client-123").roles("ADMIN")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("Andre"))
@@ -113,7 +115,8 @@ class ClientControllerTest {
 
         when(clientService.findByCpf("12345678900")).thenReturn(client);
 
-        mockMvc.perform(get("/clients/cpf/12345678900"))
+        mockMvc.perform(get("/clients/cpf/12345678900")
+                        .with(user("client-123").roles("ADMIN")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("Andre"))

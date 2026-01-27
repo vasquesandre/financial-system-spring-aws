@@ -1,5 +1,7 @@
 package br.andre.financialsystem.controller;
 
+import br.andre.financialsystem.domain.enums.Role;
+import br.andre.financialsystem.domain.exception.security.InvalidAuthenticationException;
 import br.andre.financialsystem.domain.model.Client;
 import br.andre.financialsystem.dto.client.ClientResponse;
 import br.andre.financialsystem.dto.client.CreateClientRequest;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,7 +36,7 @@ public class ClientController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<ClientResponse> findById(@PathVariable String id) {
+    public ResponseEntity<ClientResponse> findById(@PathVariable String id, Authentication authentication) {
         log.info("GET_CLIENT_RESPONSE finding client with id={}", id);
         Client client = service.findById(id);
         return ResponseEntity.ok(new ClientResponse(client));

@@ -53,14 +53,14 @@ class AuthServiceTest {
 
         when(clientService.findByCpf("cpf")).thenReturn(client);
         when(passwordEncoder.matches("123456", "encoded-pass")).thenReturn(true);
-        when(jwtService.generateToken("id", Role.CLIENT)).thenReturn("jwt-token");
+        when(jwtService.generateToken("id", Role.ADMIN)).thenReturn("jwt-token");
 
         String token = authService.login(request);
 
         assertNotNull(token);
         assertEquals("jwt-token", token);
 
-        verify(jwtService).generateToken("id", Role.CLIENT);
+        verify(jwtService).generateToken("id", Role.ADMIN);
     }
 
     @Test

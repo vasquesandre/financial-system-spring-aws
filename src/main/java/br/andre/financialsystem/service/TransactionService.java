@@ -87,21 +87,17 @@ public class TransactionService {
         return repository.save(transaction);
     }
 
-    public Transaction findById(String id, String requesterId, Role role) {
-        if(role != Role.ADMIN) {
-            log.warn("ACCESS_DENIED: requesterId={} with role={} tried to access transaction id={}", requesterId, role, id);
-            throw new AccessDeniedException();
-        }
+    public Transaction findById(String id) {
         return repository.findById(id)
                 .orElseThrow(TransactionNotFoundException::new);
     }
 
-    public List<Transaction> findByClientId(String id, String clientId) {
-        if(!id.equals(clientId)) {
-            log.warn("ACCESS_DENIED: clientId={} trying to get transactions from clientId={}", clientId, id);
+    public List<Transaction> findByClientId(String targetId, String requesterId, Role requesterRole) {
+        if(requesterRole != Role.ADMIN && !requesterId.equals(targetId)) {
+            log.warn("ACCESS_DENIED: clientId={} trying to get transactions from clientId={}", requesterId, targetId);
             throw new AccessDeniedException();
         }
-        return repository.findByClientId(clientId);
+        return repository.findByClientId(targetId);
     }
 
 }

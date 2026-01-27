@@ -1,6 +1,7 @@
 package br.andre.financialsystem.controller;
 
 import br.andre.financialsystem.domain.enums.Role;
+import br.andre.financialsystem.domain.exception.auth.AccessDeniedException;
 import br.andre.financialsystem.domain.exception.security.InvalidAuthenticationException;
 import br.andre.financialsystem.domain.model.Transaction;
 import br.andre.financialsystem.dto.transaction.CreateTransactionRequest;
@@ -32,6 +33,7 @@ public class TransactionController {
     @PostMapping
     public ResponseEntity<TransactionResponse> save(@RequestBody CreateTransactionRequest request, Authentication authentication) {
         String clientId = authentication.getName();
+
         log.info("POST_TRANSACTION_REQUEST for client={}", clientId);
 
         Transaction transaction = service.create(request, clientId);
@@ -42,31 +44,30 @@ public class TransactionController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionResponse> findById(@PathVariable String id, Authentication authentication) {
-        String requesterId = authentication.getName();
-        Role role = authentication.getAuthorities()
-                .stream()
-                .map(a -> a.getAuthority().replace("ROLE_", ""))
-                .map(Role::valueOf)
-                .findFirst()
-                .orElseThrow(InvalidAuthenticationException::new);
-
+    public ResponseEntity<TransactionResponse> findById(@PathVariable String id) {
         log.info("GET_TRANSACTION_RESPONSE by id={}", id);
-        Transaction transaction = service.findById(id, requesterId, role);
+        Transaction transaction = service.findById(id);
         return ResponseEntity.ok(new TransactionResponse(transaction));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     @GetMapping("/client/{id}")
     public ResponseEntity<List<TransactionResponse>> findByIdAndClientId(@PathVariable String id, Authentication authentication) {
-        String clientId = authentication.getName();
-        log.info("GET_TRANSACTION_RESPONSE for client={}", clientId);
-        List<TransactionResponse> transactions = service.findByClientId(id, clientId)
+        String requesterId = authentication.getName();
+        Role requesterRole = authentication.getAuthorities()
+                        .stream()
+                        .map(r -> r.getAuthority().replace("ROLE_", ""))
+                        .map(Role::valueOf)
+                        .findFirst()
+                        .orElseThrow(InvalidAuthenticationException::new);
+
+        log.info("GET_TRANSACTION_RESPONSE for client={}", id);
+        List<TransactionResponse> transactions = service.findByClientId(id, requesterId, requesterRole)
                 .stream()
                 .map(TransactionResponse::new)
                 .toList();
 
-        log.info("GET_TRANSACTION_RESPONSE completed get transactions for clientId={}", clientId);
+        log.info("GET_TRANSACTION_RESPONSE completed get transactions for clientId={}", id);
         return ResponseEntity.ok(transactions);
     }
 }

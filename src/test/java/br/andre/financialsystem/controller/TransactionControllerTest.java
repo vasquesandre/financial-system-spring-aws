@@ -1,34 +1,26 @@
 package br.andre.financialsystem.controller;
 
-import br.andre.financialsystem.config.security.JwtAuthenticationFilter;
 import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.enums.TransactionStatus;
 import br.andre.financialsystem.domain.enums.TransactionType;
 import br.andre.financialsystem.domain.model.Transaction;
 import br.andre.financialsystem.dto.transaction.CreateTransactionRequest;
-import br.andre.financialsystem.infra.security.JwtService;
 import br.andre.financialsystem.service.TransactionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -70,7 +62,7 @@ class TransactionControllerTest {
                 .thenReturn(transaction);
 
         mockMvc.perform(post("/transactions")
-                        .with(user("client-123"))
+                        .with(user("client-123").roles("CLIENT"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -95,11 +87,11 @@ class TransactionControllerTest {
                 Instant.now()
         );
 
-        when(transactionService.findById("tx-1", "1", Role.ADMIN))
+        when(transactionService.findById("tx-1"))
                 .thenReturn(transaction);
 
         mockMvc.perform(get("/transactions/tx-1")
-                        .with(user("client-123")))
+                        .with(user("client-123").roles("ADMIN")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("tx-1"))
                 .andExpect(jsonPath("$.clientId").value("client-123"))
@@ -132,11 +124,11 @@ class TransactionControllerTest {
                 Instant.now()
         );
 
-        when(transactionService.findByClientId(eq("client-123"), eq("client-123")))
+        when(transactionService.findByClientId(eq("client-123"), eq("client-123"), Role.ADMIN))
                 .thenReturn(List.of(t1, t2));
 
         mockMvc.perform(get("/transactions/client/client-123")
-                        .with(user("client-123")))
+                        .with(user("client-123").roles("ADMIN")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value("tx-1"))
                 .andExpect(jsonPath("$[0].clientId").value("client-123"))
