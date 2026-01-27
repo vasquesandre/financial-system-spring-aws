@@ -124,7 +124,7 @@ class TransactionControllerTest {
                 Instant.now()
         );
 
-        when(transactionService.findByClientId(eq("client-123"), eq("client-123"), Role.ADMIN))
+        when(transactionService.findByClientId(eq("client-123"), eq("client-123"), eq(Role.ADMIN)))
                 .thenReturn(List.of(t1, t2));
 
         mockMvc.perform(get("/transactions/client/client-123")
