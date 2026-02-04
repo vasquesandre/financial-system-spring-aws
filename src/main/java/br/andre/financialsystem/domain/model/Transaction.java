@@ -2,19 +2,25 @@ package br.andre.financialsystem.domain.model;
 
 import br.andre.financialsystem.domain.enums.TransactionStatus;
 import br.andre.financialsystem.domain.enums.TransactionType;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
+@Entity
+@Table(name = "transactions")
 public class Transaction {
-
-    private final String id;
-    private final String clientId;
-    private final BigDecimal value;
-    private final TransactionType type;
-    private final BigDecimal balanceAtCreation;
+    @Id
+    private String id;
+    private String clientId;
+    private BigDecimal value;
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
+    private BigDecimal balanceAtCreation;
+    @Enumerated(EnumType.STRING)
     private TransactionStatus status;
-    private final Instant createdAt;
+    private Instant createdAt;
     private Instant updatedAt;
 
     public Transaction(String id, String clientId, BigDecimal value, TransactionType type, BigDecimal balanceAtCreation, TransactionStatus status, Instant createdAt) {
@@ -25,6 +31,9 @@ public class Transaction {
         this.balanceAtCreation = balanceAtCreation;
         this.status = status;
         this.createdAt = createdAt;
+    }
+
+    public Transaction() {
     }
 
     public void complete() {

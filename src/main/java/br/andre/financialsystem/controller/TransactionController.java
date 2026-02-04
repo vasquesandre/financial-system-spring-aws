@@ -1,7 +1,6 @@
 package br.andre.financialsystem.controller;
 
 import br.andre.financialsystem.domain.enums.Role;
-import br.andre.financialsystem.domain.exception.auth.AccessDeniedException;
 import br.andre.financialsystem.domain.exception.security.InvalidAuthenticationException;
 import br.andre.financialsystem.domain.model.Transaction;
 import br.andre.financialsystem.dto.transaction.CreateTransactionRequest;

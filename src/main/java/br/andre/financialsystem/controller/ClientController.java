@@ -36,7 +36,7 @@ public class ClientController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<ClientResponse> findById(@PathVariable String id, Authentication authentication) {
+    public ResponseEntity<ClientResponse> findById(@PathVariable String id) {
         log.info("GET_CLIENT_RESPONSE finding client with id={}", id);
         Client client = service.findById(id);
         return ResponseEntity.ok(new ClientResponse(client));

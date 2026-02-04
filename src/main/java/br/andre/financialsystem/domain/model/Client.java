@@ -3,21 +3,27 @@ package br.andre.financialsystem.domain.model;
 import br.andre.financialsystem.domain.enums.ClientStatus;
 import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.exception.client.InsufficientBalanceException;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
+@Entity
+@Table(name = "clients")
 public class Client {
-    private final String id;
-    private final String name;
-    private final String cpf;
-    private final String password;
-    private final String email;
+    @Id
+    private String id;
+    private String name;
+    private String cpf;
+    private String password;
+    private String email;
     private BigDecimal balance;
+    @Enumerated(EnumType.STRING)
     private ClientStatus status;
-    private final Instant createdAt;
+    private Instant createdAt;
     private Instant updatedAt;
-    private final Role role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Client(String id, String name, String cpf, String password, String email, BigDecimal balance, ClientStatus status, Instant createdAt, Role role) {
         this.id = id;
@@ -29,6 +35,9 @@ public class Client {
         this.status = status;
         this.createdAt = createdAt;
         this.role = role;
+    }
+
+    public Client() {
     }
 
     public void debit(BigDecimal amount) {

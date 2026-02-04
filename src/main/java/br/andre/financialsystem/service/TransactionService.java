@@ -97,7 +97,7 @@ public class TransactionService {
             log.warn("ACCESS_DENIED: clientId={} trying to get transactions from clientId={}", requesterId, targetId);
             throw new AccessDeniedException();
         }
-        return repository.findByClientId(targetId);
+        return repository.findTransactionByClientId(targetId);
     }
 
 }

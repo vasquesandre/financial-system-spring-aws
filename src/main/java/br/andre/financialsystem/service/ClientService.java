@@ -1,7 +1,6 @@
 package br.andre.financialsystem.service;
 
 import br.andre.financialsystem.domain.enums.ClientStatus;
-import br.andre.financialsystem.domain.enums.Role;
 import br.andre.financialsystem.domain.exception.client.ClientNotFoundException;
 import br.andre.financialsystem.domain.exception.client.CpfAlreadyExistsException;
 import br.andre.financialsystem.domain.exception.client.InvalidCpfException;
