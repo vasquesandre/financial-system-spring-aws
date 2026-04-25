@@ -1,11 +1,13 @@
 package br.andre.financialsystem.service;
 
-import br.andre.financialsystem.domain.enums.ClientStatus;
-import br.andre.financialsystem.domain.enums.Role;
-import br.andre.financialsystem.domain.exception.auth.UnauthorizedLoginException;
-import br.andre.financialsystem.domain.model.Client;
-import br.andre.financialsystem.dto.auth.LoginRequest;
-import br.andre.financialsystem.infra.security.JwtService;
+import br.andre.financialsystem.auth.core.services.AuthService;
+import br.andre.financialsystem.client.core.services.ClientService;
+import br.andre.financialsystem.client.core.domain.enums.ClientStatus;
+import br.andre.financialsystem.auth.core.domain.enums.Role;
+import br.andre.financialsystem.auth.core.domain.exceptions.UnauthorizedLoginException;
+import br.andre.financialsystem.client.core.domain.Client;
+import br.andre.financialsystem.auth.adapters.in.web.request.LoginRequest;
+import br.andre.financialsystem.auth.adapters.out.security.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;

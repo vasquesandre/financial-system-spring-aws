@@ -1,10 +1,10 @@
 package br.andre.financialsystem.controller;
 
-import br.andre.financialsystem.domain.enums.ClientStatus;
-import br.andre.financialsystem.domain.enums.Role;
-import br.andre.financialsystem.domain.model.Client;
-import br.andre.financialsystem.dto.client.CreateClientRequest;
-import br.andre.financialsystem.service.ClientService;
+import br.andre.financialsystem.client.core.domain.enums.ClientStatus;
+import br.andre.financialsystem.auth.core.domain.enums.Role;
+import br.andre.financialsystem.client.core.domain.Client;
+import br.andre.financialsystem.client.adapters.in.web.request.CreateClientRequest;
+import br.andre.financialsystem.client.core.services.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

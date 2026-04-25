@@ -1,6 +1,6 @@
 package br.andre.financialsystem.repository.client;
 
-import br.andre.financialsystem.domain.model.Client;
+import br.andre.financialsystem.client.core.domain.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

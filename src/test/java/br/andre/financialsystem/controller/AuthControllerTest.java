@@ -1,9 +1,9 @@
 package br.andre.financialsystem.controller;
 
 
-import br.andre.financialsystem.domain.exception.auth.UnauthorizedLoginException;
-import br.andre.financialsystem.dto.auth.LoginRequest;
-import br.andre.financialsystem.service.AuthService;
+import br.andre.financialsystem.auth.core.domain.exceptions.UnauthorizedLoginException;
+import br.andre.financialsystem.auth.adapters.in.web.request.LoginRequest;
+import br.andre.financialsystem.auth.core.services.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

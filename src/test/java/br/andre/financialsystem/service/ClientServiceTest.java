@@ -1,13 +1,14 @@
 package br.andre.financialsystem.service;
 
-import br.andre.financialsystem.domain.enums.Role;
-import br.andre.financialsystem.domain.exception.client.InvalidCpfException;
-import br.andre.financialsystem.domain.model.Client;
-import br.andre.financialsystem.domain.enums.ClientStatus;
-import br.andre.financialsystem.dto.client.CreateClientRequest;
+import br.andre.financialsystem.client.core.services.ClientService;
+import br.andre.financialsystem.auth.core.domain.enums.Role;
+import br.andre.financialsystem.client.core.domain.exceptions.InvalidCpfException;
+import br.andre.financialsystem.client.core.domain.Client;
+import br.andre.financialsystem.client.core.domain.enums.ClientStatus;
+import br.andre.financialsystem.client.adapters.in.web.request.CreateClientRequest;
 import br.andre.financialsystem.repository.client.ClientRepository;
-import br.andre.financialsystem.domain.exception.client.CpfAlreadyExistsException;
-import br.andre.financialsystem.domain.exception.client.ClientNotFoundException;
+import br.andre.financialsystem.client.core.domain.exceptions.CpfAlreadyExistsException;
+import br.andre.financialsystem.client.core.domain.exceptions.ClientNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

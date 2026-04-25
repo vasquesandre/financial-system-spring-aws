@@ -1,11 +1,11 @@
 package br.andre.financialsystem.controller;
 
-import br.andre.financialsystem.domain.enums.Role;
-import br.andre.financialsystem.domain.enums.TransactionStatus;
-import br.andre.financialsystem.domain.enums.TransactionType;
-import br.andre.financialsystem.domain.model.Transaction;
-import br.andre.financialsystem.dto.transaction.CreateTransactionRequest;
-import br.andre.financialsystem.service.TransactionService;
+import br.andre.financialsystem.auth.core.domain.enums.Role;
+import br.andre.financialsystem.transaction.core.domain.enums.TransactionStatus;
+import br.andre.financialsystem.transaction.core.domain.enums.TransactionType;
+import br.andre.financialsystem.transaction.core.domain.Transaction;
+import br.andre.financialsystem.transaction.adapters.in.web.request.CreateTransactionRequest;
+import br.andre.financialsystem.transaction.core.services.TransactionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

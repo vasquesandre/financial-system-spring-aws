@@ -1,6 +1,6 @@
 package br.andre.financialsystem.repository.transaction;
 
-import br.andre.financialsystem.domain.model.Transaction;
+import br.andre.financialsystem.transaction.core.domain.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
